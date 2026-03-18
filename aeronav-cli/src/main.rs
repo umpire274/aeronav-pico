@@ -3,6 +3,7 @@ use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
 
+use aeronav_core::frame::FrameOptions;
 use aeronav_core::input::ViewerCommand;
 use aeronav_core::layout::ViewerLayout;
 use aeronav_core::viewer::{ViewerConfig, WeatherViewer};
@@ -67,25 +68,18 @@ fn main() {
                 return;
             }
 
+            let frame_options = build_frame_options(&options);
+
             loop {
                 clear_screen();
 
-                if options.show_header {
-                    print_header();
-                    println!();
-                }
+                let frame = viewer.render_frame(&frame_options);
 
-                let (current, total) = viewer.page_indicator();
-
-                for line in viewer.current_lines() {
+                for line in frame.lines() {
                     println!("{line}");
                 }
 
-                println!();
-                print!(
-                    "[n] next  [p] previous  [q] quit   ({}/{}) > ",
-                    current, total
-                );
+                print!(" > ");
                 io::stdout().flush().expect("failed to flush stdout");
 
                 let mut input = String::new();
@@ -168,6 +162,19 @@ fn resolve_input_report(options: &CliOptions) -> Result<Option<String>, String> 
 }
 
 /// English RustDoc comment.
+/// Builds frame rendering options from parsed CLI options.
+fn build_frame_options(options: &CliOptions) -> FrameOptions {
+    let mut frame_options = FrameOptions::cli_default();
+
+    if !options.show_header {
+        frame_options.show_header = false;
+        frame_options.header_title = None;
+    }
+
+    frame_options
+}
+
+/// English RustDoc comment.
 /// Reads a weather report from a text file.
 fn read_report_from_file(path: &str) -> Result<String, String> {
     let file_path = Path::new(path);
@@ -223,13 +230,6 @@ EXAMPLES:
     aeronav-cli --file report.txt
 "
     );
-}
-
-/// English RustDoc comment.
-/// Prints the optional CLI header.
-fn print_header() {
-    println!("AeroNav CLI Preview");
-    println!("{} v{}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
 }
 
 /// English RustDoc comment.

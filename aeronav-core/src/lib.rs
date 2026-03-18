@@ -6,6 +6,7 @@
 
 pub mod display;
 pub mod error;
+pub mod frame;
 pub mod input;
 pub mod layout;
 pub mod pager;
