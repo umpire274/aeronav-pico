@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.3.0] - 2026-03-18
+
+### ✨ Features
+- Added file-based input via `--file`
+- Added `--help` and `--version` support
+- Added optional CLI header with `--no-header`
+- Introduced `ViewerCommand` for viewer interaction
+- Added `WeatherViewer::apply_command()` to move command handling into the core
+- Added `ViewerLayout` to model UI layout constraints
+- Added `WeatherViewer::new_with_layout()` for layout-aware viewer creation
+
+### 🖥️ CLI Improvements
+- Improved argument parsing without external dependencies
+- Added support for direct METAR/TAF input via positional arguments
+- Preserved demo fallback behavior
+- Improved interactive navigation workflow
+
+### 🧠 Architecture
+- Moved layout computation from CLI into `aeronav-core`
+- Improved separation between input handling, layout logic and viewer behavior
+- Prepared the project for embedded environments (Picocalc)
+
+---
+
 ## [0.2.0] - 2026-03-18
 
 ### ✨ Features

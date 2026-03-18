@@ -1,5 +1,7 @@
 use crate::display::{paginate_lines, wrap_labeled_text};
 use crate::error::AeroNavError;
+use crate::input::ViewerCommand;
+use crate::layout::ViewerLayout;
 use crate::pager::DocumentPager;
 use crate::weather::model::WeatherDocument;
 use crate::weather::service::decode_weather_report;
@@ -85,6 +87,42 @@ impl WeatherViewer {
     }
 
     /// English RustDoc comment.
+    /// Creates a viewer using a layout-aware configuration.
+    pub fn new_with_layout(
+        raw: &str,
+        language: Language,
+        base_config: ViewerConfig,
+        layout: ViewerLayout,
+    ) -> Result<Self, AeroNavError> {
+        let page_height = layout.compute_page_height(base_config.page_height);
+
+        let config = ViewerConfig {
+            width: base_config.width,
+            label_width: base_config.label_width,
+            page_height,
+        };
+
+        Self::new(raw, language, config)
+    }
+
+    /// English RustDoc comment.
+    /// Applies a viewer command and returns `false` when the caller should quit.
+    pub fn apply_command(&mut self, command: ViewerCommand) -> bool {
+        match command {
+            ViewerCommand::NextPage => {
+                self.next_page();
+                true
+            }
+            ViewerCommand::PreviousPage => {
+                self.previous_page();
+                true
+            }
+            ViewerCommand::Quit => false,
+            ViewerCommand::NoOp => true,
+        }
+    }
+
+    /// English RustDoc comment.
     /// Returns the station identifier.
     pub fn station(&self) -> &str {
         self.document.station()
@@ -142,6 +180,7 @@ impl WeatherViewer {
 #[cfg(test)]
 mod tests {
     use super::{ViewerConfig, WeatherViewer};
+    use crate::input::ViewerCommand;
     use metar_taf_parser::Language;
 
     /// English RustDoc comment.
@@ -218,5 +257,34 @@ mod tests {
         let viewer = WeatherViewer::new(raw, Language::En, config).unwrap();
 
         assert_eq!(viewer.config(), config);
+    }
+
+    /// English RustDoc comment.
+    /// Verifies that apply_command advances to the next page.
+    #[test]
+    fn apply_next_command() {
+        let raw = "METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG";
+
+        let mut viewer = WeatherViewer::new(raw, Language::En, ViewerConfig::default()).unwrap();
+
+        assert_eq!(viewer.page_indicator(), (1, 2));
+
+        let keep_running = viewer.apply_command(ViewerCommand::NextPage);
+
+        assert!(keep_running);
+        assert_eq!(viewer.page_indicator(), (2, 2));
+    }
+
+    /// English RustDoc comment.
+    /// Verifies that apply_command handles quit requests.
+    #[test]
+    fn apply_quit_command() {
+        let raw = "METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG";
+
+        let mut viewer = WeatherViewer::new(raw, Language::En, ViewerConfig::default()).unwrap();
+
+        let keep_running = viewer.apply_command(ViewerCommand::Quit);
+
+        assert!(!keep_running);
     }
 }

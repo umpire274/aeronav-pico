@@ -8,88 +8,116 @@
 ![Issues](https://img.shields.io/github/issues/umpire274/aeronav-pico)
 ![PRs](https://img.shields.io/github/issues-pr/umpire274/aeronav-pico)
 
-A lightweight Rust project for decoding and displaying METAR and TAF weather reports, designed for small devices such as Picocalc.
+AeroNav Pico is a lightweight Rust-based CLI designed to parse and display METAR and TAF weather reports in a readable,
+paginated format.
+
+It is built as a foundation for future embedded usage on devices like the Picocalc.
+
+---
 
 ## ✨ Features
 
-* Unified METAR/TAF parsing via `metar-taf-parser`
-* Natural language formatting
-* Display-oriented text wrapping
-* Label-aware rendering for small screens
-* Pagination system for multi-page display
-* High-level `WeatherViewer` abstraction
-* CLI preview with interactive navigation
+* Parse METAR and TAF reports using `metar-taf-parser`
+* Natural language formatted output
+* Interactive paginated viewer
+* File input support (`--file`)
+* Direct CLI input support
+* Optional header (`--no-header`)
+* Built-in help and version flags
+* Layout-aware rendering via core engine
 
-## 🧱 Architecture
+---
 
-The project is composed of two crates:
+## 🚀 Usage
 
-* **aeronav-core**
-
-    * Parsing (via external crate)
-    * Formatting (natural language)
-    * Display wrapping
-    * Pagination
-    * Page navigation (`DocumentPager`)
-    * High-level viewer abstraction (`WeatherViewer`)
-    * Viewer layout configuration (`ViewerConfig`)
-
-* **aeronav-cli**
-
-    * Desktop preview interface
-    * Interactive navigation (`n` / `p` / `q`)
-    * Rendering simulation for small displays
-    * Argument-based report input
-
-## 🚀 Example
-
-Run the CLI preview:
+### Basic (demo)
 
 ```bash
-cargo run -p aeronav-cli
+aeronav-cli
 ```
 
-Pass a custom METAR report:
+### Direct input
 
 ```bash
-cargo run -p aeronav-cli -- METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG
+aeronav-cli -- METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG
 ```
 
-## 🧭 Navigation
+### From file
 
-* `n` → next page
-* `p` → previous page
-* `q` → quit
+```bash
+aeronav-cli --file report.txt
+```
 
-## 🎯 Project Goal
+### Disable header
 
-This project aims to provide a minimal, efficient and portable weather decoding system suitable for:
+```bash
+aeronav-cli --no-header
+```
 
-* embedded devices (Picocalc)
-* low-resolution displays
-* keyboard-driven interfaces
+### Help
 
-## 📦 Status
+```bash
+aeronav-cli --help
+```
 
-🚀 **v0.2.0 — Viewer abstraction and architecture stabilization**
+### Version
 
-* High-level viewer introduced
-* Configuration system implemented
-* CLI refactored on top of core
-* Ready for embedded integration
+```bash
+aeronav-cli --version
+```
 
-## 🔜 Next Steps
+---
 
-* Input from file (`--file`)
-* Extended CLI argument handling
-* Hardware input abstraction (Picocalc keys)
-* Multi-language support (when available upstream)
+## 🧠 Architecture
+
+The project is split into:
+
+### `aeronav-core`
+
+* Parsing integration
+* Viewer logic
+* Pagination engine
+* Layout system (`ViewerLayout`)
+* Command handling (`ViewerCommand`)
+
+### `aeronav-cli`
+
+* CLI interface
+* Input parsing
+* Terminal rendering
+
+---
+
+## 🧩 Design Goals
+
+* Minimal dependencies
+* Embedded-friendly architecture
+* Clear separation of concerns
+* Extensible UI model
+
+---
+
+## 🔮 Future Plans
+
+* Picocalc integration
+* Hardware key mapping
+* Frame-based UI renderer
+* Multi-language support
+* Network data fetching (METAR/TAF online)
+
+---
 
 ## 📄 License
 
-This project is licensed under either of:
+Licensed under either of:
 
-* MIT License ([LICENSE-MIT](LICENSE-MIT))
-* Apache License 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
+* MIT License
+* Apache License 2.0
 
 at your option.
+
+---
+
+## 👤 Author
+
+Developed by Alessandro (umpire274)
