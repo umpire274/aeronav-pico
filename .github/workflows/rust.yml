@@ -1,4 +1,4 @@
-name: Rust
+name: Rust CI
 
 on:
   push:
@@ -6,11 +6,15 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: read
+
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-and-test:
+  ci:
+    name: Build, lint and test
     runs-on: ubuntu-latest
 
     steps:
@@ -26,10 +30,13 @@ jobs:
         run: cargo fmt --all -- --check
 
       - name: Run Clippy
-        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
-
-      - name: Build workspace
-        run: cargo build --workspace --all-targets --verbose
+        run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
 
       - name: Run tests
-        run: cargo test --workspace --verbose
+        run: cargo test --workspace --locked --verbose
+
+      - name: Build workspace
+        run: cargo build --workspace --all-targets --locked --verbose
+
+      - name: Build release binary
+        run: cargo build --release --locked -p aeronav-cli
