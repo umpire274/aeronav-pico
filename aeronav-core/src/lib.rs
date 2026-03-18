@@ -7,4 +7,5 @@
 pub mod display;
 pub mod error;
 pub mod pager;
+pub mod viewer;
 pub mod weather;
