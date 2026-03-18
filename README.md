@@ -8,116 +8,116 @@
 ![Issues](https://img.shields.io/github/issues/umpire274/aeronav-pico)
 ![PRs](https://img.shields.io/github/issues-pr/umpire274/aeronav-pico)
 
-AeroNav Pico is a lightweight Rust-based CLI designed to parse and display METAR and TAF weather reports in a readable,
-paginated format.
+---
 
-It is built as a foundation for future embedded usage on devices like the Picocalc.
+## ✨ Overview
+
+**AeroNav Pico** is a lightweight, modular Rust application designed to parse and display METAR and TAF weather reports
+in a structured and readable format.
+
+Built with portability in mind, it targets both:
+
+* 🖥️ Desktop CLI environments
+* 📟 Embedded devices (e.g. Picocalc)
 
 ---
 
-## ✨ Features
+## 🧩 Core Architecture
 
-* Parse METAR and TAF reports using `metar-taf-parser`
-* Natural language formatted output
-* Interactive paginated viewer
-* File input support (`--file`)
-* Direct CLI input support
-* Optional header (`--no-header`)
-* Built-in help and version flags
-* Layout-aware rendering via core engine
+The project is built around a clean separation of concerns:
+
+* **Parsing** → delegated to `metar-taf-parser`
+* **Formatting** → natural language output
+* **Layout** → wrapping and alignment
+* **Paging** → multi-page navigation
+* **Viewer** → state + navigation
+* **Frame System** → UI abstraction layer
+
+---
+
+## 🆕 v0.4.0 Highlights
+
+### 🧱 UI Frame System
+
+Introduced a new rendering abstraction:
+
+* `UiFrame` → full screen (header, content, footer)
+* `FrameOptions` → configurable rendering
+* `render_frame()` → produces ready-to-render output
+
+---
+
+### 🖥️ CLI Refactor
+
+* Rendering logic moved to `aeronav-core`
+* CLI now only handles input and display loop
+* Cleaner and more maintainable structure
+
+---
+
+### ⚙️ Flexible Rendering
+
+Configurable options:
+
+* Header on/off
+* Custom title
+* Page indicator
+* Footer prompt
+
+Profiles:
+
+* `FrameOptions::cli_default()`
+* `FrameOptions::picocalc_default()`
+
+---
+
+### 📦 Automated Releases
+
+GitHub Actions now:
+
+* Builds for Linux, Windows, macOS (Intel + ARM)
+* Packages binaries with docs and licenses
+* Generates SHA256 checksums
+* Publishes assets automatically
 
 ---
 
 ## 🚀 Usage
 
-### Basic (demo)
-
 ```bash
-aeronav-cli
-```
-
-### Direct input
-
-```bash
-aeronav-cli -- METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG
-```
-
-### From file
-
-```bash
-aeronav-cli --file report.txt
-```
-
-### Disable header
-
-```bash
-aeronav-cli --no-header
-```
-
-### Help
-
-```bash
-aeronav-cli --help
-```
-
-### Version
-
-```bash
-aeronav-cli --version
+aeronav-cli "METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG"
 ```
 
 ---
 
-## 🧠 Architecture
+## 🎮 Controls
 
-The project is split into:
-
-### `aeronav-core`
-
-* Parsing integration
-* Viewer logic
-* Pagination engine
-* Layout system (`ViewerLayout`)
-* Command handling (`ViewerCommand`)
-
-### `aeronav-cli`
-
-* CLI interface
-* Input parsing
-* Terminal rendering
+* `n` → next page
+* `p` → previous page
+* `q` → quit
 
 ---
 
-## 🧩 Design Goals
+## 🛠️ Build
 
-* Minimal dependencies
-* Embedded-friendly architecture
-* Clear separation of concerns
-* Extensible UI model
-
----
-
-## 🔮 Future Plans
-
-* Picocalc integration
-* Hardware key mapping
-* Frame-based UI renderer
-* Multi-language support
-* Network data fetching (METAR/TAF online)
+```bash
+cargo build --release
+```
 
 ---
 
-## 📄 License
+## 📜 License
 
-Licensed under either of:
+Dual licensed under:
 
-* MIT License
-* Apache License 2.0
-
-at your option.
+* MIT
+* Apache-2.0
 
 ---
 
-## 👤 Author
+## 🚧 Roadmap
 
-Developed by Alessandro (umpire274)
+* Input from file / stdin
+* Embedded display integration (Picocalc)
+* Advanced navigation
+* Multi-language support expansion

@@ -1,8 +1,45 @@
 # Changelog
 
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+---
+
+## [0.4.0] - 2026-03-18
+### ✨ Added
+
+* Introduced `UiFrame` abstraction (header, content, footer)
+* Introduced `FrameOptions` for configurable rendering
+* Added `render_frame()` in `WeatherViewer`
+* Added CLI and Picocalc default frame profiles
+* Added automated multi-platform release pipeline
+* Added SHA256 checksum generation
+
+### 🔄 Changed
+
+* Refactored CLI to use `UiFrame`
+* Moved rendering logic from CLI to `aeronav-core`
+* Improved separation of concerns across modules
+* Simplified main loop and rendering pipeline
+
+### 🧪 Tests
+
+* Added tests for `UiFrame`
+* Added tests for `FrameOptions`
+* Updated viewer tests for new rendering model
+
+### 🏗️ Internal
+
+* Improved modular architecture
+* Prepared project for embedded display targets
+
+---
+
 ## [0.3.0] - 2026-03-18
 
 ### ✨ Features
+
 - Added file-based input via `--file`
 - Added `--help` and `--version` support
 - Added optional CLI header with `--no-header`
@@ -12,12 +49,14 @@
 - Added `WeatherViewer::new_with_layout()` for layout-aware viewer creation
 
 ### 🖥️ CLI Improvements
+
 - Improved argument parsing without external dependencies
 - Added support for direct METAR/TAF input via positional arguments
 - Preserved demo fallback behavior
 - Improved interactive navigation workflow
 
 ### 🧠 Architecture
+
 - Moved layout computation from CLI into `aeronav-core`
 - Improved separation between input handling, layout logic and viewer behavior
 - Prepared the project for embedded environments (Picocalc)

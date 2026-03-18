@@ -1,5 +1,6 @@
 use crate::display::{paginate_lines, wrap_labeled_text};
 use crate::error::AeroNavError;
+use crate::frame::{FrameOptions, UiFrame};
 use crate::input::ViewerCommand;
 use crate::layout::ViewerLayout;
 use crate::pager::DocumentPager;
@@ -123,6 +124,46 @@ impl WeatherViewer {
     }
 
     /// English RustDoc comment.
+    /// Renders the current viewer state into a UI frame.
+    pub fn render_frame(&self, options: &FrameOptions) -> UiFrame {
+        let mut header = Vec::new();
+
+        if options.show_header {
+            if let Some(title) = &options.header_title {
+                header.push(title.clone());
+            }
+
+            header.push(format!(
+                "{} v{}",
+                env!("CARGO_PKG_NAME"),
+                env!("CARGO_PKG_VERSION")
+            ));
+            header.push(String::new());
+        }
+
+        let content = self.current_lines().to_vec();
+
+        let mut footer = Vec::new();
+
+        let (current, total) = self.page_indicator();
+
+        match (&options.footer_prompt, options.show_page_indicator) {
+            (Some(prompt), true) => {
+                footer.push(format!("{prompt}   ({current}/{total})"));
+            }
+            (Some(prompt), false) => {
+                footer.push(prompt.clone());
+            }
+            (None, true) => {
+                footer.push(format!("({current}/{total})"));
+            }
+            (None, false) => {}
+        }
+
+        UiFrame::new(header, content, footer)
+    }
+
+    /// English RustDoc comment.
     /// Returns the station identifier.
     pub fn station(&self) -> &str {
         self.document.station()
@@ -180,6 +221,7 @@ impl WeatherViewer {
 #[cfg(test)]
 mod tests {
     use super::{ViewerConfig, WeatherViewer};
+    use crate::frame::FrameOptions;
     use crate::input::ViewerCommand;
     use metar_taf_parser::Language;
 
@@ -286,5 +328,33 @@ mod tests {
         let keep_running = viewer.apply_command(ViewerCommand::Quit);
 
         assert!(!keep_running);
+    }
+
+    /// English RustDoc comment.
+    /// Verifies frame rendering with CLI options.
+    #[test]
+    fn render_frame_with_cli_options() {
+        let raw = "METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG";
+
+        let viewer = WeatherViewer::new(raw, Language::En, ViewerConfig::default()).unwrap();
+        let frame = viewer.render_frame(&FrameOptions::cli_default());
+
+        assert!(!frame.header.is_empty());
+        assert!(!frame.content.is_empty());
+        assert_eq!(frame.footer.len(), 1);
+    }
+
+    /// English RustDoc comment.
+    /// Verifies frame rendering with Picocalc-style options.
+    #[test]
+    fn render_frame_with_picocalc_options() {
+        let raw = "METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG";
+
+        let viewer = WeatherViewer::new(raw, Language::En, ViewerConfig::default()).unwrap();
+        let frame = viewer.render_frame(&FrameOptions::picocalc_default());
+
+        assert!(frame.header.is_empty());
+        assert!(!frame.content.is_empty());
+        assert_eq!(frame.footer.len(), 1);
     }
 }
