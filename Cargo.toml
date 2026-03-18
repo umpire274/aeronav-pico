@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "aeronav-core",
+    "aeronav-cli",
+]
+
+resolver = "2"

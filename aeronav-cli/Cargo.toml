@@ -1,0 +1,8 @@
+[package]
+name = "aeronav-cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aeronav-core = { path = "../aeronav-core" }
+metar-taf-parser = "0.4.9"

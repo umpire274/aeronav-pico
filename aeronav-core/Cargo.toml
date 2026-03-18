@@ -1,0 +1,8 @@
+[package]
+name = "aeronav-core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+metar-taf-parser = "0.4.9"
+thiserror = "2"
