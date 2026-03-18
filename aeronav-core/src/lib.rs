@@ -6,6 +6,8 @@
 
 pub mod display;
 pub mod error;
+pub mod input;
+pub mod layout;
 pub mod pager;
 pub mod viewer;
 pub mod weather;
