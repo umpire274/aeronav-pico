@@ -1,15 +1,23 @@
 # AeroNav Pico
 
-A lightweight Rust project for decoding and displaying METAR and TAF weather reports, designed for small devices such as
-Picocalc.
+![CI](https://github.com/umpire274/aeronav-pico/actions/workflows/rust.yml/badge.svg)
+![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue)
+![Rust](https://img.shields.io/badge/Rust-2024-orange)
+![Status](https://img.shields.io/badge/status-active-success)
+![Version](https://img.shields.io/github/v/release/umpire274/aeronav-pico)
+![Issues](https://img.shields.io/github/issues/umpire274/aeronav-pico)
+![PRs](https://img.shields.io/github/issues-pr/umpire274/aeronav-pico)
+
+A lightweight Rust project for decoding and displaying METAR and TAF weather reports, designed for small devices such as Picocalc.
 
 ## ✨ Features
 
 * Unified METAR/TAF parsing via `metar-taf-parser`
-* Natural language formatting (multi-language ready)
+* Natural language formatting
 * Display-oriented text wrapping
 * Label-aware rendering for small screens
 * Pagination system for multi-page display
+* High-level `WeatherViewer` abstraction
 * CLI preview with interactive navigation
 
 ## 🧱 Architecture
@@ -23,12 +31,15 @@ The project is composed of two crates:
     * Display wrapping
     * Pagination
     * Page navigation (`DocumentPager`)
+    * High-level viewer abstraction (`WeatherViewer`)
+    * Viewer layout configuration (`ViewerConfig`)
 
 * **aeronav-cli**
 
     * Desktop preview interface
     * Interactive navigation (`n` / `p` / `q`)
     * Rendering simulation for small displays
+    * Argument-based report input
 
 ## 🚀 Example
 
@@ -38,24 +49,13 @@ Run the CLI preview:
 cargo run -p aeronav-cli
 ```
 
-Example output:
+Pass a custom METAR report:
 
-```
-METAR LIRF
-Time:          Day 12 at 12:50Z
-Wind:          wind from 180° at 10
-               kt
-Visibility:    visibility greater
-               than 10 km
-Weather:       light rain
-Clouds:        few clouds at 3000 ft
-Temperature:   temperature 18°C,
-               dew point 12°C
-Pressure:      QNH 1015 hPa
-Trend:         no significant change
+```bash
+cargo run -p aeronav-cli -- METAR LIRF 121250Z 18010KT 9999 FEW030 -RA 18/12 Q1015 NOSIG
 ```
 
-Navigate pages using:
+## 🧭 Navigation
 
 * `n` → next page
 * `p` → previous page
@@ -71,26 +71,25 @@ This project aims to provide a minimal, efficient and portable weather decoding 
 
 ## 📦 Status
 
-🚧 **v0.1.0 — Initial working prototype**
+🚀 **v0.2.0 — Viewer abstraction and architecture stabilization**
 
-* Core pipeline completed
-* Display rendering ready
-* Navigation implemented
+* High-level viewer introduced
+* Configuration system implemented
+* CLI refactored on top of core
 * Ready for embedded integration
 
 ## 🔜 Next Steps
 
-* Embedded input integration (hardware keys)
-* Real-time METAR/TAF fetching
-* UI state abstraction for firmware
-* Multi-language expansion
-* Performance optimizations for low-power devices
+* Input from file (`--file`)
+* Extended CLI argument handling
+* Hardware input abstraction (Picocalc keys)
+* Multi-language support (when available upstream)
 
 ## 📄 License
 
 This project is licensed under either of:
 
-- MIT License ([LICENSE-MIT](LICENSE-MIT))
-- Apache License 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
+* MIT License ([LICENSE-MIT](LICENSE-MIT))
+* Apache License 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
 
 at your option.
