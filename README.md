@@ -1,6 +1,7 @@
 # AeroNav Pico
 
-A lightweight Rust project for decoding and displaying METAR and TAF weather reports, designed for small devices such as Picocalc.
+A lightweight Rust project for decoding and displaying METAR and TAF weather reports, designed for small devices such as
+Picocalc.
 
 ## ✨ Features
 
@@ -84,3 +85,12 @@ This project aims to provide a minimal, efficient and portable weather decoding 
 * UI state abstraction for firmware
 * Multi-language expansion
 * Performance optimizations for low-power devices
+
+## 📄 License
+
+This project is licensed under either of:
+
+- MIT License ([LICENSE-MIT](LICENSE-MIT))
+- Apache License 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
+
+at your option.
