@@ -1,18 +1,14 @@
 mod cli_key_source;
 
+use crate::cli_key_source::CliKeySource;
+use aeronav_core::app::AppState;
+use aeronav_core::input::KeySource;
+use aeronav_core::ui::{DisplayRenderer, FrameOptions, ViewerConfig, ViewerLayout, WeatherViewer};
+use metar_taf_parser::Language;
 use std::env;
 use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
-
-use aeronav_core::app::AppState;
-use aeronav_core::frame::FrameOptions;
-use aeronav_core::key_source::KeySource;
-use aeronav_core::layout::ViewerLayout;
-use aeronav_core::renderer::DisplayRenderer;
-use aeronav_core::viewer::{ViewerConfig, WeatherViewer};
-use cli_key_source::CliKeySource;
-use metar_taf_parser::Language;
 
 /// English RustDoc comment.
 /// Represents parsed CLI options for the preview application.

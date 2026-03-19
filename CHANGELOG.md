@@ -4,6 +4,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1] - 2026-03-19
+
+### 🧹 Refactored
+
+- Reorganized `aeronav-core` source tree into:
+    - `app/`, `input/`, `ui/`, `weather/`
+- Split monolithic modules into smaller, focused files
+- Removed legacy `ViewerCommand` usage
+
+### 🔄 Changed
+
+- Viewer is now input-agnostic
+- Input → state → render pipeline fully enforced
+
+### 🧪 Tests
+
+- Updated tests to reflect new architecture
+- All tests passing
+
+### 🏗️ Internal
+
+- Improved module boundaries
+- Reduced coupling between layers
+
+---
+
 ## [0.5.0] - 2026-03-19
 
 ### ✨ Added

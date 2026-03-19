@@ -1,4 +1,4 @@
-use crate::keys::PicoKey;
+use crate::input::PicoKey;
 
 /// English RustDoc comment.
 /// Represents a source of abstract keys for the application.
