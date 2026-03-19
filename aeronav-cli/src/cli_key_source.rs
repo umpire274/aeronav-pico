@@ -1,7 +1,5 @@
+use aeronav_core::input::{KeySource, PicoKey};
 use std::io;
-
-use aeronav_core::key_source::KeySource;
-use aeronav_core::keys::PicoKey;
 
 /// English RustDoc comment.
 /// Represents a CLI-based key source backed by stdin.

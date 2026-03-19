@@ -1,4 +1,4 @@
-use crate::frame::UiFrame;
+use crate::ui::frame::UiFrame;
 
 /// English RustDoc comment.
 /// Represents a renderer that transforms UI frames into display-ready lines.
@@ -42,7 +42,7 @@ impl DisplayRenderer {
 #[cfg(test)]
 mod tests {
     use super::DisplayRenderer;
-    use crate::frame::UiFrame;
+    use crate::ui::frame::UiFrame;
 
     /// English RustDoc comment.
     /// Verifies that rendering preserves all lines when under the limit.

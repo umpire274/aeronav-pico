@@ -1,15 +1,5 @@
-use crate::frame::{FrameOptions, UiFrame};
-use crate::viewer::WeatherViewer;
-
-/// English RustDoc comment.
-/// Represents the currently active application screen.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum AppScreen {
-    Menu,
-    Viewer,
-    Help,
-    About,
-}
+use crate::app::{AppCommand, AppScreen};
+use crate::ui::{FrameOptions, UiFrame, WeatherViewer};
 
 /// English RustDoc comment.
 /// Represents a selectable entry in the main menu.
@@ -39,21 +29,6 @@ impl MenuEntry {
         }
     }
 }
-
-/// English RustDoc comment.
-/// Represents a high-level application command.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum AppCommand {
-    Next,
-    Previous,
-    Select,
-    ShowHelp,
-    Back,
-    Quit,
-    NoOp,
-}
-
-impl AppCommand {}
 
 /// English RustDoc comment.
 /// Represents the top-level application state.
@@ -303,8 +278,7 @@ impl AppState {
 #[cfg(test)]
 mod tests {
     use super::{AppCommand, AppScreen, AppState};
-    use crate::frame::FrameOptions;
-    use crate::viewer::{ViewerConfig, WeatherViewer};
+    use crate::ui::{FrameOptions, ViewerConfig, WeatherViewer};
     use metar_taf_parser::Language;
 
     fn sample_viewer() -> WeatherViewer {

@@ -1,5 +1,4 @@
-use crate::key_source::KeySource;
-use crate::keys::PicoKey;
+use crate::input::{KeySource, PicoKey};
 
 /// English RustDoc comment.
 /// Represents a placeholder key source for the future Picocalc hardware keyboard.
@@ -24,9 +23,7 @@ impl KeySource for PicocalcKeySource {
 
 #[cfg(test)]
 mod tests {
-    use super::PicocalcKeySource;
-    use crate::key_source::KeySource;
-    use crate::keys::PicoKey;
+    use crate::input::{KeySource, PicoKey, PicocalcKeySource};
 
     /// English RustDoc comment.
     /// Verifies that the current Picocalc key source stub returns Unknown.
