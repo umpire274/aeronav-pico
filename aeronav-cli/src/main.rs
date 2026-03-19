@@ -1,12 +1,17 @@
+mod cli_key_source;
+
 use std::env;
 use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
 
+use aeronav_core::app::AppState;
 use aeronav_core::frame::FrameOptions;
-use aeronav_core::input::ViewerCommand;
+use aeronav_core::key_source::KeySource;
 use aeronav_core::layout::ViewerLayout;
+use aeronav_core::renderer::DisplayRenderer;
 use aeronav_core::viewer::{ViewerConfig, WeatherViewer};
+use cli_key_source::CliKeySource;
 use metar_taf_parser::Language;
 
 /// English RustDoc comment.
@@ -62,37 +67,33 @@ fn main() {
     };
 
     match WeatherViewer::new_with_layout(&raw, options.language, base_config, layout) {
-        Ok(mut viewer) => {
+        Ok(viewer) => {
             if viewer.is_empty() {
                 println!("No content to display.");
                 return;
             }
 
             let frame_options = build_frame_options(&options);
+            let renderer = DisplayRenderer::cli_default();
+            let mut app = AppState::new(viewer);
+            let mut key_source = CliKeySource::new();
 
-            loop {
+            while app.is_running() {
                 clear_screen();
 
-                let frame = viewer.render_frame(&frame_options);
+                let frame = app.render(&frame_options);
+                let lines = renderer.render_lines(&frame);
 
-                for line in frame.lines() {
+                for line in lines {
                     println!("{line}");
                 }
 
                 print!(" > ");
                 io::stdout().flush().expect("failed to flush stdout");
 
-                let mut input = String::new();
-                if io::stdin().read_line(&mut input).is_err() {
-                    eprintln!("Failed to read input.");
-                    break;
-                }
-
-                let command = ViewerCommand::from_input(&input);
-
-                if !viewer.apply_command(command) {
-                    break;
-                }
+                let key = key_source.poll_key();
+                let app_command = key.to_app_command();
+                app.apply_command(app_command);
             }
         }
         Err(err) => {

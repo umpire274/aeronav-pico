@@ -4,9 +4,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2026-03-19
+
+### ✨ Added
+
+- Introduced `AppState`, `AppScreen`, and `AppCommand`
+- Added multi-screen navigation (Menu, Viewer, Help, About)
+- Introduced `PicoKey` abstraction
+- Added `KeySource` trait
+- Implemented `CliKeySource` and `PicocalcKeySource` (stub)
+- Introduced `DisplayRenderer`
+
+### 🔄 Changed
+
+- Refactored CLI to use application state instead of direct viewer access
+- Removed direct input → command mapping in favor of `PicoKey`
+
+### 🏗️ Internal
+
+- Established full input → state → render pipeline
+- Prepared architecture for embedded hardware execution
+
 ---
 
 ## [0.4.0] - 2026-03-18
+
 ### ✨ Added
 
 * Introduced `UiFrame` abstraction (header, content, footer)
