@@ -1,8 +1,16 @@
 [package]
 name = "aeronav-core"
-version = "0.5.1"
-edition = "2024"
-license = "MIT OR Apache-2.0"
+version = "0.5.2"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Core library for AeroNav Pico: METAR/TAF decoding, viewer state, UI frames, layout, input abstraction and rendering primitives for CLI and embedded targets."
+readme = "../README.md"
+keywords = ["metar", "taf", "aviation", "weather", "embedded"]
+categories = ["parser-implementations", "text-processing"]
 
 [dependencies]
 metar-taf-parser = "0.4.9"

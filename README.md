@@ -106,6 +106,17 @@ cargo build --release
 
 ---
 
+## 📦 Packaging Status
+
+The project is structured as a Rust workspace with:
+
+- `aeronav-core` for reusable application logic
+- `aeronav-cli` for the command-line frontend
+
+Package metadata has been prepared for future crates.io publication.
+
+---
+
 ## 📜 License
 
 Dual licensed under:
