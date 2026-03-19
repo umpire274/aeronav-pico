@@ -117,6 +117,28 @@ Package metadata has been prepared for future crates.io publication.
 
 ---
 
+## 🧠 Runtime Architecture
+
+AeroNav Pico now uses a layered execution model:
+
+```text
+KeySource -> PicoKey -> AppCommand -> AppState -> UiFrame -> DisplayRenderer -> DisplayTarget
+```
+
+This architecture supports both:
+
+- CLI execution
+- future embedded runtimes such as Picocalc
+
+**Core runtime components**
+
+- AppRunner → application loop coordinator
+- KeySource → abstract input source
+- DisplayTarget → abstract output target
+- PicocalcRuntime → device-oriented runtime profile
+
+---
+
 ## 📜 License
 
 Dual licensed under:

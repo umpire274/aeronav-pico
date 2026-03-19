@@ -1,6 +1,6 @@
 [package]
 name = "aeronav-cli"
-version = "0.5.2"
+version = "0.6.0"
 edition.workspace = true
 rust-version.workspace = true
 authors.workspace = true
@@ -13,5 +13,5 @@ keywords = ["metar", "taf", "aviation", "cli", "weather"]
 categories = ["command-line-utilities", "text-processing"]
 
 [dependencies]
-aeronav-core = { version = "0.5.2", path = "../aeronav-core" }
+aeronav-core = { version = "0.6.0", path = "../aeronav-core" }
 metar-taf-parser = "0.4.9"

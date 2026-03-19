@@ -4,6 +4,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2026-03-19
+
+### ✨ Added
+
+- Introduced `AppRunner` as the core application execution loop
+- Added `DisplayTarget` trait for abstract display backends
+- Added `CliDisplayTarget`
+- Added `PicocalcDisplayTarget` stub
+- Added `PicocalcRuntime` as a device-oriented runtime profile
+- Added `AppStep` to represent loop execution results
+
+### 🔄 Changed
+
+- Moved the main execution loop from CLI into `aeronav-core`
+- Refactored CLI to use `AppRunner::run()`
+- Moved CLI prompt handling into `CliKeySource`
+
+### 🏗️ Architecture
+
+- Completed the input → state → frame → render pipeline
+- Established symmetric runtime concepts for CLI and Picocalc
+- Improved separation between frontend wiring and core logic
+
+### 🧪 Tests
+
+- Added tests for `AppRunner`
+- Added tests for `PicocalcRuntime`
+- Added tests for display target abstractions
+
+---
+
 ## [0.5.2] - 2026-03-19
 
 ### 📦 Packaging & Metadata
