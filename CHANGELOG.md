@@ -4,6 +4,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.2] - 2026-03-19
+
+### 📦 Packaging & Metadata
+
+- Added richer package metadata to `aeronav-core` and `aeronav-cli`
+- Added descriptions, keywords, categories, repository and homepage fields
+- Added explicit `rust-version`
+- Aligned workspace-level package metadata
+- Added versioned workspace dependency from `aeronav-cli` to `aeronav-core`
+
+### 🧹 Project Polish
+
+- Improved readiness for future crates.io publication
+- Improved package discoverability and release consistency
+- Performed packaging sanity checks for local release validation
+
+---
+
 ## [0.5.1] - 2026-03-19
 
 ### 🧹 Refactored

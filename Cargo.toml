@@ -3,5 +3,12 @@ members = [
     "aeronav-core",
     "aeronav-cli",
 ]
-
 resolver = "2"
+
+[workspace.package]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/umpire274/aeronav-pico"
+homepage = "https://github.com/umpire274/aeronav-pico"
+authors = ["Alessandro Maestri <umpire274@gmail.com>"]
+rust-version = "1.85"
