@@ -1,5 +1,6 @@
+use std::io::{self, Write};
+
 use aeronav_core::input::{KeySource, PicoKey};
-use std::io;
 
 /// English RustDoc comment.
 /// Represents a CLI-based key source backed by stdin.
@@ -15,6 +16,9 @@ impl CliKeySource {
 
 impl KeySource for CliKeySource {
     fn poll_key(&mut self) -> PicoKey {
+        print!(" > ");
+        io::stdout().flush().expect("failed to flush stdout");
+
         let mut input = String::new();
 
         if io::stdin().read_line(&mut input).is_err() {

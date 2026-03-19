@@ -1,13 +1,13 @@
+mod cli_display_target;
 mod cli_key_source;
 
 use crate::cli_key_source::CliKeySource;
-use aeronav_core::app::AppState;
-use aeronav_core::input::KeySource;
+use aeronav_core::app::{AppRunner, AppState};
 use aeronav_core::ui::{DisplayRenderer, FrameOptions, ViewerConfig, ViewerLayout, WeatherViewer};
+use cli_display_target::CliDisplayTarget;
 use metar_taf_parser::Language;
 use std::env;
 use std::fs;
-use std::io::{self, Write};
 use std::path::Path;
 
 /// English RustDoc comment.
@@ -57,7 +57,7 @@ fn main() {
     let base_config = ViewerConfig::default();
 
     let layout = if options.show_header {
-        ViewerLayout::new(3, 1) // header + footer
+        ViewerLayout::new(3, 1)
     } else {
         ViewerLayout::new(0, 1)
     };
@@ -69,28 +69,15 @@ fn main() {
                 return;
             }
 
+            let app = AppState::new(viewer);
+            let key_source = CliKeySource::new();
             let frame_options = build_frame_options(&options);
             let renderer = DisplayRenderer::cli_default();
-            let mut app = AppState::new(viewer);
-            let mut key_source = CliKeySource::new();
 
-            while app.is_running() {
-                clear_screen();
+            let mut runner = AppRunner::new(app, key_source, frame_options, renderer);
+            let mut display = CliDisplayTarget::new();
 
-                let frame = app.render(&frame_options);
-                let lines = renderer.render_lines(&frame);
-
-                for line in lines {
-                    println!("{line}");
-                }
-
-                print!(" > ");
-                io::stdout().flush().expect("failed to flush stdout");
-
-                let key = key_source.poll_key();
-                let app_command = key.to_app_command();
-                app.apply_command(app_command);
-            }
+            runner.run(&mut display);
         }
         Err(err) => {
             eprintln!("Error: {err}");
@@ -110,7 +97,6 @@ fn parse_cli_options() -> Result<CliOptions, String> {
         show_version: false,
         show_header: true,
     };
-
     let mut report_parts: Vec<String> = Vec::new();
 
     while let Some(arg) = args.next() {
@@ -227,11 +213,4 @@ EXAMPLES:
     aeronav-cli --file report.txt
 "
     );
-}
-
-/// English RustDoc comment.
-/// Clears the terminal screen using ANSI escape codes.
-fn clear_screen() {
-    print!("\x1B[2J\x1B[H");
-    io::stdout().flush().expect("failed to flush stdout");
 }
